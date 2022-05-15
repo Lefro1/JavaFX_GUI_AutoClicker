@@ -1,0 +1,10 @@
+/*Align text inside all text-area objects as center*/
+.text-area *.text {
+    -fx-text-alignment: center;
+}
+
+/*Change radio-buttons to be left text instead of right text.*/
+/*
+.radio-button { -fx-rotate:180; }
+.radio-button > .text { -fx-rotate: 180; }
+*/

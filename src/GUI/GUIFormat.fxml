@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GUIController">
+   <children>
+      <GridPane fx:id="clickOptionsGridePane" layoutX="15.0" layoutY="128.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <MenuButton mnemonicParsing="false" prefWidth="120.0" text="Left" GridPane.columnIndex="1">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" prefWidth="120.0" text="Single" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+            </MenuButton>
+            <Label text="Mouse Button:" />
+            <Label prefHeight="26.0" prefWidth="92.0" text="Click Type:" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+      <GridPane fx:id="clickIntervalGridPane" alignment="CENTER" gridLinesVisible="true" layoutX="21.0" layoutY="7.0" prefHeight="99.0" prefWidth="562.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.20001220703125" minWidth="10.0" prefWidth="210.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.20001220703125" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <RadioButton fx:id="clicksPerSecondRadioButton" mnemonicParsing="false" selected="true" text="Clicks per second" GridPane.rowIndex="2">
+               <toggleGroup>
+                  <ToggleGroup fx:id="clickSpeedButtons" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="delayBetweenClicksRadioButton" mnemonicParsing="false" text="Delay between clicks" toggleGroup="$clickSpeedButtons" GridPane.rowIndex="1" />
+            <Label text="Minutes" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Label text="Seconds" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+            <Label text="Milliseconds" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+            <Spinner fx:id="minuteClickDelaySpinner" editable="true" prefHeight="26.0" prefWidth="131.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Spinner fx:id="secondsClickDelaySpinner" editable="true" prefHeight="26.0" prefWidth="131.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Spinner fx:id="millisecondsClickDelaySpinner" editable="true" prefHeight="26.0" prefWidth="131.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Spinner fx:id="clicksPerSecondSpinner" editable="true" prefHeight="26.0" prefWidth="131.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="275.0" layoutY="128.0" prefHeight="61.0" prefWidth="326.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.4000244140625" minWidth="10.0" prefWidth="241.39990234375" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.199951171875" minWidth="10.0" prefWidth="81.40009765625001" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <RadioButton fx:id="repeatUntilStoppedRadioButton" mnemonicParsing="false" selected="true" text="Repeat until stopped" GridPane.rowIndex="1">
+               <toggleGroup>
+                  <ToggleGroup fx:id="totalClicksButtons" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="totalClicksRadioButton" mnemonicParsing="false" text="Total Clicks" toggleGroup="$totalClicksButtons" GridPane.halignment="LEFT" />
+            <Spinner fx:id="totalClicksSpinner" editable="true" prefHeight="26.0" prefWidth="131.0" GridPane.halignment="RIGHT" />
+            <Label prefHeight="18.0" prefWidth="66.0" text="Times" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+         </children>
+      </GridPane>
+      <GridPane alignment="CENTER" layoutX="56.0" layoutY="224.0" prefHeight="62.0" prefWidth="505.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="0.0" prefWidth="220.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.20003662109374" minWidth="0.0" prefWidth="220.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="0.0" prefWidth="220.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints fx:id="startStopGridPane" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="startButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="142.0" text="Start (~)" GridPane.halignment="CENTER" />
+            <Button fx:id="stopButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="142.0" text="Stop (~)" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Button fx:id="setHotkeyButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="142.0" text="Set Hotkey (~)" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
