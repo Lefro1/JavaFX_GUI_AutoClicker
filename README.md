@@ -28,7 +28,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Image]](/Resources/JavaFX_GUI_AutoClickerImage.png)
+[![Image]](src/Resources/JavaFX_GUI_AutoClickerImage.png)
 
 I just wanted to make a somewhat simple auto clicker using JavaFX as the user interface.
 
