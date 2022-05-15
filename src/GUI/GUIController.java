@@ -1,6 +1,7 @@
 package GUI;
 
 import ClickerLogic.AutoClickerController;
+import ClickerLogic.ClickOptions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -40,12 +41,13 @@ public class GUIController implements Initializable {
 
     private AutoClickerController autoClickerController;
 
-    private final MenuItem menuItemLeftClick = new MenuItem("LeftClick");
-    private final MenuItem menuItemMiddleClick = new MenuItem("MiddleClick");
-    private final MenuItem menuItemRightClick = new MenuItem("RightClick");
-    private final MenuItem menuItemTripleClick = new MenuItem("TripleClick");
-    private final MenuItem menuItemSingleClick = new MenuItem("SingleClick");
-    private final MenuItem menuItemDoubleClick = new MenuItem("DoubleClick");
+    // Defining using the static final constants as these will be compared in multiple classes.
+    private final MenuItem menuItemLeftClick = new MenuItem(ClickOptions.LEFT_CLICK);
+    private final MenuItem menuItemMiddleClick = new MenuItem(ClickOptions.MIDDLE_CLICK);
+    private final MenuItem menuItemRightClick = new MenuItem(ClickOptions.RIGHT_CLICK);
+    private final MenuItem menuItemSingleClick = new MenuItem(ClickOptions.SINGLE_CLICK);
+    private final MenuItem menuItemDoubleClick = new MenuItem(ClickOptions.DOUBLE_CLICK);
+    private final MenuItem menuItemTripleClick = new MenuItem(ClickOptions.TRIPLE_CLICK);
 
 
     private int minuteClickDelaySpinnerValue;
@@ -75,6 +77,32 @@ public class GUIController implements Initializable {
         }
     }
 
+
+    /**
+     * Start the auto clicker.
+     * @param event User handled event.
+     */
+    public void startClicker(ActionEvent event) {
+        autoClickerController.start();
+    }
+
+
+    /**
+     * Stop the auto clicker.
+     * @param event User handled event.
+     */
+    public void stopClicker(ActionEvent event) {
+        autoClickerController.stop();
+    }
+
+    /**
+     * Set the hotkey for the auto clicker to the next pressed key.
+     * @param event User handled event.
+     */
+    public void setHotkeyClicker(ActionEvent event) throws InterruptedException {
+        String newHotkey = autoClickerController.setHotkey();
+        setHotkeyButton.setText(String.format("Set Hotkey: (%s)", newHotkey ));
+    }
 
     /**
      * Each spinner needs its own unique ValueFactory, otherwise the values will change with each other.
@@ -182,13 +210,31 @@ public class GUIController implements Initializable {
         });
     }
 
-
-    public void printHelloMethod() {
-        System.out.println("Hello, this is from the GUIController class.");
+    public int getSecondsClickDelaySpinnerValue() {
+        return secondsClickDelaySpinnerValue;
     }
 
-    public void startClicker(ActionEvent event) {
-        System.out.println("Start Clicker from GUIController class.");
-        autoClickerController.start();
+    public int getMinuteClickDelaySpinnerValue() {
+        return minuteClickDelaySpinnerValue;
+    }
+
+    public int getMillisecondsClickDelaySpinnerValue() {
+        return millisecondsClickDelaySpinnerValue;
+    }
+
+    public int getClicksPerSecondSpinnerValue() {
+        return clicksPerSecondSpinnerValue;
+    }
+
+    public int getTotalClicksSpinnerValue() {
+        return totalClicksSpinnerValue;
+    }
+
+    public String getMouseButtonString() {
+        return mouseButtonString;
+    }
+
+    public String getClickMultipleString() {
+        return clickMultipleString;
     }
 }
