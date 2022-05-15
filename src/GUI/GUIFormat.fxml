@@ -6,11 +6,13 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GUIController">
    <children>
@@ -84,19 +86,32 @@
             <Label prefHeight="18.0" prefWidth="66.0" text="Times" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
          </children>
       </GridPane>
-      <GridPane alignment="CENTER" layoutX="56.0" layoutY="224.0" prefHeight="62.0" prefWidth="505.0">
+      <GridPane alignment="CENTER" layoutX="-10.0" layoutY="226.0" prefHeight="62.0" prefWidth="469.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="0.0" prefWidth="220.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.20003662109374" minWidth="0.0" prefWidth="220.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="0.0" prefWidth="220.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="0.0" prefWidth="120.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="0.0" prefWidth="120.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="0.0" prefWidth="120.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints fx:id="startStopGridPane" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="startButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="142.0" text="Start (~)" GridPane.halignment="CENTER" />
-            <Button fx:id="stopButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="142.0" text="Stop (~)" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-            <Button fx:id="setHotkeyButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="142.0" text="Set Hotkey (~)" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+            <Button fx:id="startButton" mnemonicParsing="false" onAction="#startClicker" prefHeight="50.0" prefWidth="120.0" text="Start (~)" GridPane.halignment="CENTER" />
+            <Button fx:id="stopButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Stop (~)" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Button fx:id="setHotkeyButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Set Hotkey (~)" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="460.0" layoutY="190.0" prefHeight="99.0" prefWidth="131.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="140.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="36.799948120117186" minHeight="0.0" prefHeight="36.799948120117186" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="60.8" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total Clicks:" textAlignment="CENTER" wrappingWidth="120.0" />
+            <TextArea fx:id="totalClicksTextArea" editable="false" prefHeight="50.0" prefWidth="120.0" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

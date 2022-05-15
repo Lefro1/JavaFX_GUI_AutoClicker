@@ -1,24 +1,26 @@
 package GUI;
 
+import ClickerLogic.AutoClickerController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GUIController implements Initializable {
 
     @FXML
-    public GridPane clickOptionsGridPane;
-    public GridPane clickIntervalGridPane;
-    public RadioButton clicksPerSecondRadioButton;
+    public ToggleGroup clickSpeedButtons;
     public RadioButton delayBetweenClicksRadioButton;
+    public RadioButton clicksPerSecondRadioButton;
+
+    public ToggleGroup totalClicksButtons;
+    public RadioButton totalClicksRadioButton;
     public RadioButton repeatUntilStoppedRadioButton;
 
     public Spinner<Integer> minuteClickDelaySpinner;
@@ -27,17 +29,16 @@ public class GUIController implements Initializable {
     public Spinner<Integer> clicksPerSecondSpinner;
     public Spinner<Integer> totalClicksSpinner;
 
-    public ToggleGroup totalClicksButtons;
-    public ToggleGroup clickSpeedButtons;
-    public RadioButton totalClicksRadioButton;
+    public MenuButton mouseButtonMenuButton;
+    public MenuButton clickMultipleMenuButton;
 
-    public RowConstraints startStopGridPane;
     public Button startButton;
     public Button stopButton;
     public Button setHotkeyButton;
+    public TextArea totalClicksTextArea;
 
-    public MenuButton mouseButtonMenuButton;
-    public MenuButton clickMultipleMenuButton;
+
+    private AutoClickerController autoClickerController;
 
     private final MenuItem menuItemLeftClick = new MenuItem("LeftClick");
     private final MenuItem menuItemMiddleClick = new MenuItem("MiddleClick");
@@ -66,6 +67,12 @@ public class GUIController implements Initializable {
 
         // Initialize the menu buttons to have selection options.
         initializeMenuItems();
+
+        try {
+            autoClickerController = new AutoClickerController(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -176,4 +183,12 @@ public class GUIController implements Initializable {
     }
 
 
+    public void printHelloMethod() {
+        System.out.println("Hello, this is from the GUIController class.");
+    }
+
+    public void startClicker(ActionEvent event) {
+        System.out.println("Start Clicker from GUIController class.");
+        autoClickerController.start();
+    }
 }
