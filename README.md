@@ -28,7 +28,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Image]](src/Resources/JavaFX_GUI_AutoClickerImage.png)
+![Image of Auto Clicker in use](src/Resources/JavaFX_GUI_AutoClickerImage.png)
 
 I just wanted to make a somewhat simple auto clicker using JavaFX as the user interface.
 
@@ -63,8 +63,9 @@ This application relies on [JNativeHook 2.1.0](https://github.com/kwhat/jnativeh
  To run this auto clicker, you can either compile the files yourself in a program such as IntelliJ, or you can just run the attached jar file.
 
 Compiling Locally (through IntelliJ):
- * `git clone` the repo.
- * On IntelliJ, go file -> Project Structure -> Modules -> Dependencies
+ * Run `git clone https://github.com/jasdrive/JavaFX_GUI_AutoClicker.git`
+ * Open the src folder in IntelliJ.
+ * On IntelliJ, go file -> Project Structure -> Modules -> Dependencies.
  * Directly beneath "Module SDK" select the + icon and find your JNativeHook.jar file.
  * Add the file to the dependency list, ensure the box "Export" is checked, apply and close.
  * You can now compile `src/GUI/RenderGUI`'s main method which will run the program.
