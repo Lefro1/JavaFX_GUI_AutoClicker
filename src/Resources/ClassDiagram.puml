@@ -1,0 +1,64 @@
+@startuml
+title JavaFX GUI AutoClicker
+
+skinparam backgroundColor #878683
+
+skinparam class {
+    BackgroundColor #f4d47c
+}
+
+skinparam package {
+    BackgroundColor #2069e0
+}
+
+
+package GUI {
+    class GUIController {
+        - minuteClickDelaySpinnerValue : int
+        - secondsClickDelaySpinnerValue : int
+        - millisecondsClickDelaySpinnerValue : int
+        - clicksPerSecondSpinnerValue : int
+        - totalClicksSpinnerValue : int
+        - mouseButtonString : String
+        - clickMultipleString : String
+    }
+
+    class RenderGUI {
+
+    }
+
+
+}
+
+
+package ClickerLogic {
+    class AutoClickerController {
+        + AutoClickerController(GUIController)
+        + start() : void
+        + stop() : void
+        + setHotkey() : void
+    }
+
+    class ClicksPerSecondCalculator {
+        + getClicksPerSecond : double
+    }
+
+    class ClickType {
+        + setLeftClick() : void
+        + setMiddleClick() : void
+        + setRightClick() : void
+        + setSingleClick() : void
+        + setDoubleClick() : void
+        + setTripleClick() : void
+    }
+}
+
+AutoClickerController *-- ClicksPerSecondCalculator
+AutoClickerController *-- ClickType
+
+GUIController <-- RenderGUI : calls
+
+AutoClickerController <-- GUIController : sends state/values
+
+
+@enduml

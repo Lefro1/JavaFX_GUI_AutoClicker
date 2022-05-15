@@ -10,6 +10,13 @@ public class ClickType {
     }
 
     /**
+     * Sets the mouse button being clicked with the middle mouse button.
+     */
+    public void setMiddleClick() {
+
+    }
+
+    /**
      * Sets the mouse button being clicked with to right click.
      */
     public void setRightClick() {
@@ -27,6 +34,13 @@ public class ClickType {
      * Sets the number of clicks to be 2 clicks per cycle.
      */
     public void setDoubleClick() {
+
+    }
+
+    /**
+     * Sets the number of clicks to be 3 clicks per cycle.
+     */
+    public void setTripleClick() {
 
     }
 }
