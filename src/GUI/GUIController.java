@@ -157,7 +157,11 @@ public class GUIController implements Initializable {
         totalClicksSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-                totalClicksSpinnerValue = totalClicksSpinner.getValue();
+                try {
+                    totalClicksSpinnerValue = totalClicksSpinner.getValue();
+                } catch (NullPointerException e) {
+                    totalClicksSpinnerValue = 0;
+                }
             }
         });
     }

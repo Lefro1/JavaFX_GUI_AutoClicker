@@ -1,19 +1,38 @@
 package ClickerLogic;
 
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
+
 import java.awt.*;
 import java.awt.event.InputEvent;
 
 public class AutoClicker {
 
-    private AutoClickerController clickerController;
-    private Robot robot;
-    private boolean isActive = false;
+    private final AutoClickerController clickerController;
+    private final KeyboardListener keyboardListener;
+    private final Robot robot;
     private int delayBetweenCycles;
+    private int totalClicks;
 
 
-    public AutoClicker(AutoClickerController clickerController) throws AWTException {
+    public AutoClicker(AutoClickerController clickerController) throws AWTException, NativeHookException {
         this.clickerController = clickerController;
+        this.keyboardListener = clickerController.getKeyboardListener();
         robot = new Robot();
+        totalClicks = 0;
+
+
+//        try {
+//            GlobalScreen.registerNativeHook();
+//            GlobalScreen.isNativeHookRegistered();
+//            GlobalScreen.addNativeKeyListener(keyboardListener);
+//        } catch (NativeHookException e) {
+//            e.printStackTrace();
+//        }
+
+
+
+       // clickerController.getKeyboardListener().start();
     }
 
     /**
@@ -21,7 +40,7 @@ public class AutoClicker {
      *
      */
     public void startAutoClicker() throws InterruptedException {
-        isActive = true;
+        totalClicks = 0;
 
         boolean isClicksPerSecond = clickerController.isClicksPerSecond();
         boolean isRepeatUntilStopped = clickerController.isRepeatUntilStopped();
@@ -34,7 +53,6 @@ public class AutoClicker {
                     isClicksPerSecond);
         }
         catch (Exception e) {
-            isActive = false;
             return;
         }
 
@@ -44,7 +62,7 @@ public class AutoClicker {
     }
 
     public void stopAutoClicker() {
-        isActive = false;
+        keyboardListener.setIsAutoClickerClicking(false);
     }
 
     /**
@@ -56,7 +74,6 @@ public class AutoClicker {
      */
     private int calculateTimeBetweenClicks(int minutes, int seconds, int milliseconds, boolean isClicksPerSecond) {
         // If specified clicks/second, pause this many milliseconds between cycles:
-        System.out.println("isClicksPerSecond " + isClicksPerSecond);
         if(isClicksPerSecond) {
             int clicksPerSecond = clickerController.getClicksPerSecondSpinnerValue();
             if(clicksPerSecond == 0) {
@@ -81,7 +98,6 @@ public class AutoClicker {
         String clickMultiple = clickerController.getClickMultipleString();
 
 
-        System.out.printf("MouseButton %s     ClickMultiple %s\n", mouseButton, clickMultiple);
         int mouseEvent;
 
         //Just using a switch statement because it's fun, if/else may have been more readable.
@@ -111,7 +127,6 @@ public class AutoClicker {
             default:
                 throw new IllegalArgumentException("mouse button " + mouseButton + "Found to be invalid.");
         }
-        System.out.printf("isClicksPerSecond %s     isRepeatingUntilStopped %s\n", isClicksPerSecond, isRepeatingUntilStopped);
         if(isRepeatingUntilStopped) {
             startRepeatUntilStoppedClicker(mouseEvent, numberOfClicksPerCycle);
         }
@@ -128,18 +143,37 @@ public class AutoClicker {
      * @param numberOfClicksPerCycle determines if we will single, double, or triple click.
      */
     private void startRepeatUntilStoppedClicker(int mouseEvent, int numberOfClicksPerCycle) throws InterruptedException {
+        // CURRENT PROBLEM:
+        // Upon starting while(isActive), the nativeKeyPressed() method in KeyboardListener stops.
+        // Only upon "stop()" being selected on the app, which calls public void stopAutoClicker() through
+        // Another means, and re-assigns the "isAutoClickerClicking" variable to false, does the loop stop.
+
+        // Upon the loop stopping, all "cached" key commands enter at once. Back to back.
+        // For example, if you spam clicked the "toggle" (stop/start) key.
+        // After clicking the stop button by hand, the cached key command of you hitting the toggle button would register.
+        // Because isAutoClickerClicking is now false, it starts the auto clicker again.
+        // This will repeat for all cached key input entries while the loop was occurring.
+
+
+
         System.out.println("reached startClicksPerSecondRepeatUntilStopped");
+        keyboardListener.setIsAutoClickerClicking(true);
         int counter = 0;
-        while(true) {
-            System.out.print("isActive     " + isActive);
+        Thread.sleep(1000);
+        for(int i = 0; i < 1000; i++) {
+        //while(keyboardListener.getIsAutoClickerClicking()) {
+            System.out.println("isActive     " + keyboardListener.getIsAutoClickerClicking());
                 robot.mousePress(mouseEvent);
                 robot.mouseRelease(mouseEvent);
-            Thread.sleep(delayBetweenCycles);
-            if(!isActive) {
-                System.out.println("Not Active.");
-                return;
+            keyboardListener.checkIn();
+            try {
+                Thread.sleep(delayBetweenCycles);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
+            //clickerController.getGuiController().totalClicksTextArea.setText(String.valueOf(totalClicks++));
         }
+        keyboardListener.setIsAutoClickerClicking(false);
     }
 
     private void startMaxTotalClicksClicker(int mouseEvent, int numberOfClicksPerCycle, int maxClicks) {

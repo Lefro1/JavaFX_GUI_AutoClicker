@@ -1,6 +1,7 @@
 package ClickerLogic;
 
 import GUI.GUIController;
+import lombok.SneakyThrows;
 
 import java.awt.*;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class AutoClickerController {
      * Passes a reference of this object to the KeyboardListener so it can recognize inputs and use methods.
      * @throws IOException If the resource path is invalid.
      */
+    @SneakyThrows
     public AutoClickerController(GUIController guiController) throws IOException, AWTException {
         this.guiController = guiController;
         keyboardListener = new KeyboardListener(this);
@@ -37,9 +39,11 @@ public class AutoClickerController {
         guiController.secondsClickDelaySpinner.increment(0);
         guiController.millisecondsClickDelaySpinner.increment(0);
         guiController.clicksPerSecondSpinner.increment(0);
+        guiController.totalClicksSpinner.increment(0);
+
+        guiController.totalClicksTextArea.setText("0");
 
         System.out.println("AutoClickerController start() method.");
-        keyboardListener.setIsAutoClickerClicking(true);
         autoClicker.startAutoClicker();
     }
 
@@ -48,8 +52,6 @@ public class AutoClickerController {
      */
     public void stop() {
         System.out.println("AutoClickerController stop() method.");
-        keyboardListener.setIsAutoClickerClicking(false);
-
         autoClicker.stopAutoClicker();
     }
 
@@ -96,5 +98,13 @@ public class AutoClickerController {
 
     public boolean isRepeatUntilStopped() {
         return guiController.isRepeatUntilStopped();
+    }
+
+    public GUIController getGuiController() {
+        return this.guiController;
+    }
+
+    public KeyboardListener getKeyboardListener() {
+        return this.keyboardListener;
     }
 }

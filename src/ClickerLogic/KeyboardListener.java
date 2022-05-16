@@ -1,14 +1,15 @@
 package ClickerLogic;
 
-import org.jnativehook.GlobalScreen;
-import org.jnativehook.NativeHookException;
-import org.jnativehook.keyboard.NativeKeyEvent;
-import org.jnativehook.keyboard.NativeKeyListener;
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
+import lombok.SneakyThrows;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class KeyboardListener implements NativeKeyListener{
+public class KeyboardListener implements NativeKeyListener {
 
     private final AutoClickerController clickerController;
     private int toggleKeyCode;
@@ -22,6 +23,10 @@ public class KeyboardListener implements NativeKeyListener{
         this.toggleKey = stopKey;
     }
 
+    /**
+     *
+     * @param clickerController The AutoClickerController object using this keyboard listener.
+     */
     public KeyboardListener(AutoClickerController clickerController) {
         this.clickerController = clickerController;
         this.toggleKey = "Back Quote";
@@ -51,27 +56,23 @@ public class KeyboardListener implements NativeKeyListener{
      *
      * @param e Whenever a key is pressed, this is that key.
      */
+    @SneakyThrows
     public void nativeKeyPressed(NativeKeyEvent e) {
-        //System.out.println("Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
-
         mostRecentNativeKeyEvent = e;
         mostRecentKeyPressTime = System.currentTimeMillis();
+
+        System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()) + "     toggleKeyCodeL: " + NativeKeyEvent.getKeyText(toggleKeyCode));
 
 
         // If the key pressed is the toggle key, check the current start/stop state. Start if stopped, stop if running.
         if(NativeKeyEvent.getKeyText(e.getKeyCode()).equals(NativeKeyEvent.getKeyText(toggleKeyCode))) {
 
-            if(isAutoClickerClicking) {
-                clickerController.stop();
+            if(!isAutoClickerClicking) {
+                clickerController.start();
             }
             else {
-                try {
-                    clickerController.start();
-                } catch (InterruptedException interruptedException) {
-                    interruptedException.printStackTrace();
-                }
+                clickerController.stop();
             }
-
         }
     }
 
@@ -104,4 +105,43 @@ public class KeyboardListener implements NativeKeyListener{
     public void setIsAutoClickerClicking(boolean isAutoClickerClicking) {
         this.isAutoClickerClicking = isAutoClickerClicking;
     }
+
+    public boolean getIsAutoClickerClicking() {
+        return isAutoClickerClicking;
+    }
+
+    public void checkIn() {
+        System.out.println("Check in!");
+    }
+
+
+
+
+
+
+    // Create a new global hotkey listener
+//    public class GlobalKeyListener implements NativeKeyListener{
+//        @SneakyThrows
+//        public void nativeKeyPressed(NativeKeyEvent keyPress) {
+//            // If the hotkey is pressed and the clicker isn't running, start it. If it is running, stop it.
+//            if (keyPress.getKeyCode() == toggleKeyCode) {
+//                if (!isAutoClickerClicking) {
+//                    clickerController.start();
+//                } else {
+//                    clickerController.stop();
+//                }
+//                }
+//            }
+//
+//            // If we're waiting for a hotkey to be pressed, make sure we can set it all up
+////            if(waitingForHotkey){
+////                hotkeyCode = keyPress.getKeyCode();
+////                hotkeyField.setText(NativeKeyEvent.getKeyText(hotkeyCode));
+////
+////                // Update the buttons when a new hotkey is picked
+////                startButton.setText("Start (" + NativeKeyEvent.getKeyText(hotkeyCode) + ")");
+////                stopButton.setText("Stop (" + NativeKeyEvent.getKeyText(hotkeyCode) + ")");
+////
+////                waitingForHotkey = false;
+//    }
 }
