@@ -10,9 +10,9 @@ import java.util.logging.Logger;
 
 public class KeyboardListener implements NativeKeyListener{
 
+    private final AutoClickerController clickerController;
     private int toggleKeyCode;
     private String toggleKey;
-    private AutoClickerController clickerController;
     private NativeKeyEvent mostRecentNativeKeyEvent;
     private long mostRecentKeyPressTime;
     private boolean isAutoClickerClicking;

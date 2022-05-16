@@ -8,7 +8,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -72,7 +76,7 @@ public class GUIController implements Initializable {
 
         try {
             autoClickerController = new AutoClickerController(this);
-        } catch (IOException e) {
+        } catch (IOException | AWTException e) {
             e.printStackTrace();
         }
     }
