@@ -10,29 +10,13 @@ public class AutoClicker {
 
     private final AutoClickerController clickerController;
     private final KeyboardListener keyboardListener;
-    private final Robot robot;
     private int delayBetweenCycles;
     private int totalClicks;
 
 
-    public AutoClicker(AutoClickerController clickerController) throws AWTException, NativeHookException {
+    public AutoClicker(AutoClickerController clickerController) {
         this.clickerController = clickerController;
         this.keyboardListener = clickerController.getKeyboardListener();
-        robot = new Robot();
-        totalClicks = 0;
-
-
-//        try {
-//            GlobalScreen.registerNativeHook();
-//            GlobalScreen.isNativeHookRegistered();
-//            GlobalScreen.addNativeKeyListener(keyboardListener);
-//        } catch (NativeHookException e) {
-//            e.printStackTrace();
-//        }
-
-
-
-       // clickerController.getKeyboardListener().start();
     }
 
     /**
@@ -40,7 +24,8 @@ public class AutoClicker {
      *
      */
     public void startAutoClicker() throws InterruptedException {
-        totalClicks = 0;
+        // Assigning to 1 instead of 0, for some reason it seems to miss the first click.
+        totalClicks = 1;
 
         boolean isClicksPerSecond = clickerController.isClicksPerSecond();
         boolean isRepeatUntilStopped = clickerController.isRepeatUntilStopped();
@@ -57,8 +42,6 @@ public class AutoClicker {
         }
 
         clickerVersionDecider(isClicksPerSecond, isRepeatUntilStopped);
-
-
     }
 
     public void stopAutoClicker() {
@@ -93,7 +76,6 @@ public class AutoClicker {
     }
 
     private void clickerVersionDecider(boolean isClicksPerSecond, boolean isRepeatingUntilStopped) throws InterruptedException {
-        System.out.println("Reached clickerVersionDecider");
         String mouseButton = clickerController.getMouseButtonString();
         String clickMultiple = clickerController.getClickMultipleString();
 
@@ -143,40 +125,75 @@ public class AutoClicker {
      * @param numberOfClicksPerCycle determines if we will single, double, or triple click.
      */
     private void startRepeatUntilStoppedClicker(int mouseEvent, int numberOfClicksPerCycle) throws InterruptedException {
-        // CURRENT PROBLEM:
-        // Upon starting while(isActive), the nativeKeyPressed() method in KeyboardListener stops.
-        // Only upon "stop()" being selected on the app, which calls public void stopAutoClicker() through
-        // Another means, and re-assigns the "isAutoClickerClicking" variable to false, does the loop stop.
 
-        // Upon the loop stopping, all "cached" key commands enter at once. Back to back.
-        // For example, if you spam clicked the "toggle" (stop/start) key.
-        // After clicking the stop button by hand, the cached key command of you hitting the toggle button would register.
-        // Because isAutoClickerClicking is now false, it starts the auto clicker again.
-        // This will repeat for all cached key input entries while the loop was occurring.
-
-
-
-        System.out.println("reached startClicksPerSecondRepeatUntilStopped");
         keyboardListener.setIsAutoClickerClicking(true);
-        int counter = 0;
-        Thread.sleep(1000);
-        for(int i = 0; i < 1000; i++) {
-        //while(keyboardListener.getIsAutoClickerClicking()) {
-            System.out.println("isActive     " + keyboardListener.getIsAutoClickerClicking());
-                robot.mousePress(mouseEvent);
-                robot.mouseRelease(mouseEvent);
-            keyboardListener.checkIn();
-            try {
-                Thread.sleep(delayBetweenCycles);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+
+        // Define clicking function to be inside its own thread. Otherwise, the EventListener in KeyboardListener
+        // Will run into problems and stack. The EventListener stalls during the while loop to click.
+        // This prevents stopping the clicker via. key press after it starts.
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Robot robot = new Robot();
+                    while (keyboardListener.getIsAutoClickerClicking()) {
+                        for(int i = 0; i < numberOfClicksPerCycle; i++) {
+                            robot.mousePress(mouseEvent);
+                            robot.mouseRelease(mouseEvent);
+                            clickerController.getGuiController().totalClicksTextArea.setText(String.valueOf(totalClicks++));
+                        }
+                        try {
+                            Thread.sleep(delayBetweenCycles);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                } catch (Exception ignored) {
+                }
             }
-            //clickerController.getGuiController().totalClicksTextArea.setText(String.valueOf(totalClicks++));
-        }
-        keyboardListener.setIsAutoClickerClicking(false);
+        };
+        // Start the thread. I'm not worrying about stopping it anywhere as I am a novice at multithreading, and this works.
+        Thread clickingThread = new Thread(runnable);
+        clickingThread.start();
+
     }
 
     private void startMaxTotalClicksClicker(int mouseEvent, int numberOfClicksPerCycle, int maxClicks) {
+        keyboardListener.setIsAutoClickerClicking(true);
 
+        // Define clicking function to be inside its own thread. Otherwise, the EventListener in KeyboardListener
+        // Will run into problems and stack. The EventListener stalls during the while loop to click.
+        // This prevents stopping the clicker via. key press after it starts.
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                int totalClicks = 0;
+                try {
+                    Robot robot = new Robot();
+                    while (keyboardListener.getIsAutoClickerClicking()) {
+                        for(int i = 0; i < numberOfClicksPerCycle; i++) {
+                            robot.mousePress(mouseEvent);
+                            robot.mouseRelease(mouseEvent);
+                            clickerController.getGuiController().totalClicksTextArea.setText(String.valueOf(totalClicks++));
+                        }
+                        totalClicks++;
+
+                        if(totalClicks >= maxClicks) {
+                            keyboardListener.setIsAutoClickerClicking(false);
+                            return;
+                        }
+                        try {
+                            Thread.sleep(delayBetweenCycles);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+        };
+        // Start the thread. I'm not worrying about stopping it anywhere as I am a novice at multithreading, and this works.
+        Thread clickingThread = new Thread(runnable);
+        clickingThread.start();
     }
 }

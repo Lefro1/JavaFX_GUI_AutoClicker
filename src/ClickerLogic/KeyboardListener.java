@@ -24,7 +24,6 @@ public class KeyboardListener implements NativeKeyListener {
     }
 
     /**
-     *
      * @param clickerController The AutoClickerController object using this keyboard listener.
      */
     public KeyboardListener(AutoClickerController clickerController) {
@@ -53,7 +52,6 @@ public class KeyboardListener implements NativeKeyListener {
     }
 
     /**
-     *
      * @param e Whenever a key is pressed, this is that key.
      */
     @SneakyThrows
@@ -61,16 +59,12 @@ public class KeyboardListener implements NativeKeyListener {
         mostRecentNativeKeyEvent = e;
         mostRecentKeyPressTime = System.currentTimeMillis();
 
-        System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()) + "     toggleKeyCodeL: " + NativeKeyEvent.getKeyText(toggleKeyCode));
-
-
         // If the key pressed is the toggle key, check the current start/stop state. Start if stopped, stop if running.
-        if(NativeKeyEvent.getKeyText(e.getKeyCode()).equals(NativeKeyEvent.getKeyText(toggleKeyCode))) {
+        if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals(NativeKeyEvent.getKeyText(toggleKeyCode))) {
 
-            if(!isAutoClickerClicking) {
+            if (!isAutoClickerClicking) {
                 clickerController.start();
-            }
-            else {
+            } else {
                 clickerController.stop();
             }
         }
@@ -78,6 +72,7 @@ public class KeyboardListener implements NativeKeyListener {
 
     /**
      * Checks for the next key pressed after being called. Sets that as the new stop key.
+     *
      * @return The new stop key code
      */
     public String setToggleKeyCode() throws InterruptedException {
@@ -85,7 +80,7 @@ public class KeyboardListener implements NativeKeyListener {
 
         // Waits for the most recent key press to update. When the most recent key press (time of key press)
         // Is no longer equal to the previous most recent key press, assign the most recent key.
-        while(localMostRecentKeyPress == mostRecentKeyPressTime) {
+        while (localMostRecentKeyPress == mostRecentKeyPressTime) {
             Thread.sleep(10);
         }
 
@@ -109,39 +104,4 @@ public class KeyboardListener implements NativeKeyListener {
     public boolean getIsAutoClickerClicking() {
         return isAutoClickerClicking;
     }
-
-    public void checkIn() {
-        System.out.println("Check in!");
-    }
-
-
-
-
-
-
-    // Create a new global hotkey listener
-//    public class GlobalKeyListener implements NativeKeyListener{
-//        @SneakyThrows
-//        public void nativeKeyPressed(NativeKeyEvent keyPress) {
-//            // If the hotkey is pressed and the clicker isn't running, start it. If it is running, stop it.
-//            if (keyPress.getKeyCode() == toggleKeyCode) {
-//                if (!isAutoClickerClicking) {
-//                    clickerController.start();
-//                } else {
-//                    clickerController.stop();
-//                }
-//                }
-//            }
-//
-//            // If we're waiting for a hotkey to be pressed, make sure we can set it all up
-////            if(waitingForHotkey){
-////                hotkeyCode = keyPress.getKeyCode();
-////                hotkeyField.setText(NativeKeyEvent.getKeyText(hotkeyCode));
-////
-////                // Update the buttons when a new hotkey is picked
-////                startButton.setText("Start (" + NativeKeyEvent.getKeyText(hotkeyCode) + ")");
-////                stopButton.setText("Stop (" + NativeKeyEvent.getKeyText(hotkeyCode) + ")");
-////
-////                waitingForHotkey = false;
-//    }
 }

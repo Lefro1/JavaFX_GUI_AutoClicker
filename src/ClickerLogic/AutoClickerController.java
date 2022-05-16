@@ -43,7 +43,6 @@ public class AutoClickerController {
 
         guiController.totalClicksTextArea.setText("0");
 
-        System.out.println("AutoClickerController start() method.");
         autoClicker.startAutoClicker();
     }
 
@@ -51,7 +50,6 @@ public class AutoClickerController {
      * Stop the auto clicker. Controls the state of isAutoClickerClicking as it can be started via button press as well.
      */
     public void stop() {
-        System.out.println("AutoClickerController stop() method.");
         autoClicker.stopAutoClicker();
     }
 
