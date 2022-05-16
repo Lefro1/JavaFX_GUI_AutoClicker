@@ -86,7 +86,7 @@ public class GUIController implements Initializable {
      * Start the auto clicker.
      * @param event User handled event.
      */
-    public void startClicker(ActionEvent event) {
+    public void startClicker(ActionEvent event) throws InterruptedException {
         autoClickerController.start();
     }
 
@@ -254,7 +254,7 @@ public class GUIController implements Initializable {
      *
      * @return true if the toggled radio button contains the specified fxid string. False if not.
      */
-    public boolean isRepeatUntilStoppedRadioButton() {
-        return String.valueOf(clickSpeedButtons.getSelectedToggle()).contains("repeatUntilStoppedRadioButton");
+    public boolean isRepeatUntilStopped() {
+        return String.valueOf(totalClicksButtons.getSelectedToggle()).contains("repeatUntilStoppedRadioButton");
     }
 }

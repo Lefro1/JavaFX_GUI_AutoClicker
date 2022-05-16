@@ -1,11 +1,14 @@
 package GUI;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
 public class RenderGUI extends Application {
 
@@ -29,10 +32,27 @@ public class RenderGUI extends Application {
         usedScene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
 
         stage.show();
+        stage.setOnCloseRequest(this::handleWindowClose);
     }
 
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @SneakyThrows
+    private void handleWindowClose(Event event) {
+
+        final Stage stage;
+        String eventString;
+
+        eventString = event.getEventType().toString();
+        if ("WINDOW_CLOSE_REQUEST".equals(eventString)) {
+            event.consume();
+            stage = (Stage) event.getSource();
+            stage.close();
+            Platform.exit();
+            System.exit(0);
+        }
     }
 }

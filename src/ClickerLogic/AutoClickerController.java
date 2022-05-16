@@ -30,12 +30,13 @@ public class AutoClickerController {
     /**
      * Start the auto clicker. Controls the state of isAutoClickerClicking as it can be started via button press as well.
      */
-    public void start() {
+    public void start() throws InterruptedException {
         // By default, the Spinner value only "sets" itself upon clicking the arrow.
         // By calling increment 0, we do not change the value of the Spinner, BUT, it "sets" itself to the entered value.
         guiController.minuteClickDelaySpinner.increment(0);
         guiController.secondsClickDelaySpinner.increment(0);
         guiController.millisecondsClickDelaySpinner.increment(0);
+        guiController.clicksPerSecondSpinner.increment(0);
 
         System.out.println("AutoClickerController start() method.");
         keyboardListener.setIsAutoClickerClicking(true);
@@ -93,7 +94,7 @@ public class AutoClickerController {
         return guiController.isClicksPerSecond();
     }
 
-    public boolean isRepeatUntilStoppedRadioButton() {
-        return guiController.isRepeatUntilStoppedRadioButton();
+    public boolean isRepeatUntilStopped() {
+        return guiController.isRepeatUntilStopped();
     }
 }

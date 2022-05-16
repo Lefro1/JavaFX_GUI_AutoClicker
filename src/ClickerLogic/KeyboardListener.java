@@ -65,7 +65,11 @@ public class KeyboardListener implements NativeKeyListener{
                 clickerController.stop();
             }
             else {
-                clickerController.start();
+                try {
+                    clickerController.start();
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                }
             }
 
         }
