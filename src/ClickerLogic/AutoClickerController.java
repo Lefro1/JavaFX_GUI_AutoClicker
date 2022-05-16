@@ -88,4 +88,12 @@ public class AutoClickerController {
     public String getClickMultipleString() {
         return guiController.getClickMultipleString();
     }
+
+    public boolean isClicksPerSecond() {
+        return guiController.isClicksPerSecond();
+    }
+
+    public boolean isRepeatUntilStoppedRadioButton() {
+        return guiController.isRepeatUntilStoppedRadioButton();
+    }
 }

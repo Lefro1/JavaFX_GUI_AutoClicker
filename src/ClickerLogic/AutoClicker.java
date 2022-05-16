@@ -1,10 +1,15 @@
 package ClickerLogic;
 
+import java.awt.*;
+
 public class AutoClicker {
 
     private AutoClickerController clickerController;
-    public AutoClicker(AutoClickerController clickerController) {
+    private Robot robot;
+
+    public AutoClicker(AutoClickerController clickerController) throws AWTException {
         this.clickerController = clickerController;
+        robot = new Robot();
     }
 
     /**
@@ -14,6 +19,12 @@ public class AutoClicker {
      */
     public void startAutoClicker() {
         System.out.println("Delay is: " + calculateTimeBetweenClicks(clickerController.getMinuteClickDelaySpinnerValue(), clickerController.getSecondsClickDelaySpinnerValue(), clickerController.getMillisecondsClickDelaySpinnerValue()));
+
+        boolean isClicksPerSecond = clickerController.isClicksPerSecond();
+        boolean isRepeatUntilStopped = clickerController.isRepeatUntilStoppedRadioButton();
+
+        clickerVersionDecider(isClicksPerSecond, isRepeatUntilStopped);
+
     }
 
     public void stopAutoClicker() {
@@ -29,5 +40,44 @@ public class AutoClicker {
      */
     private int calculateTimeBetweenClicks(int minutes, int seconds, int milliseconds) {
         return milliseconds + seconds * 1000 + minutes * 60 * 1000;
+    }
+
+    private void clickerVersionDecider(boolean isClicksPerSecond, boolean isRepeatingUntilStopped) {
+        String mouseButton = clickerController.getMouseButtonString();
+        String clickMultiple = clickerController.getClickMultipleString();
+
+        if(isClicksPerSecond && isRepeatingUntilStopped) {
+            startClicksPerSecondRepeatUntilStopped(mouseButton, clickMultiple);
+        }
+
+        if(isClicksPerSecond && !isRepeatingUntilStopped) {
+            startClicksPerSecondTotalClicks(mouseButton, clickMultiple);
+        }
+
+        if(!isClicksPerSecond && isRepeatingUntilStopped) {
+            startDelayBetweenClicksRepeatUntilStopped(mouseButton, clickMultiple);
+        }
+
+        if(!isClicksPerSecond && !isRepeatingUntilStopped) {
+            startDelayBetweenClicksTotalClicks(mouseButton, clickMultiple);
+        }
+
+
+    }
+
+    private void startClicksPerSecondRepeatUntilStopped(String mouseButton, String clickMultiple) {
+
+    }
+
+    private void startClicksPerSecondTotalClicks(String mouseButton, String clickMultiple) {
+
+    }
+
+    private void startDelayBetweenClicksRepeatUntilStopped(String mouseButton, String clickMultiple) {
+
+    }
+
+    private void startDelayBetweenClicksTotalClicks(String mouseButton, String clickMultiple) {
+
     }
 }

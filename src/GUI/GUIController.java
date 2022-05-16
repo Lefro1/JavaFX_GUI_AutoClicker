@@ -241,4 +241,20 @@ public class GUIController implements Initializable {
     public String getClickMultipleString() {
         return clickMultipleString;
     }
+
+    /**
+     *
+     * @return true if the toggled radio button contains the specified fxid string. False if not.
+     */
+    public boolean isClicksPerSecond() {
+        return String.valueOf(clickSpeedButtons.getSelectedToggle()).contains("clicksPerSecondRadioButton");
+    }
+
+    /**
+     *
+     * @return true if the toggled radio button contains the specified fxid string. False if not.
+     */
+    public boolean isRepeatUntilStoppedRadioButton() {
+        return String.valueOf(clickSpeedButtons.getSelectedToggle()).contains("repeatUntilStoppedRadioButton");
+    }
 }
