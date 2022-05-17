@@ -139,7 +139,7 @@ public class AutoClicker {
                         for(int i = 0; i < numberOfClicksPerCycle; i++) {
                             robot.mousePress(mouseEvent);
                             robot.mouseRelease(mouseEvent);
-                            clickerController.getGuiController().totalClicksTextArea.setText(String.valueOf(totalClicks++));
+                            clickerController.getGuiController().totalClicksTextArea.setText(String.valueOf(++totalClicks));
                         }
                         try {
                             Thread.sleep(delayBetweenCycles);
@@ -166,16 +166,14 @@ public class AutoClicker {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                int totalClicks = 0;
                 try {
                     Robot robot = new Robot();
                     while (keyboardListener.getIsAutoClickerClicking()) {
                         for(int i = 0; i < numberOfClicksPerCycle; i++) {
                             robot.mousePress(mouseEvent);
                             robot.mouseRelease(mouseEvent);
-                            clickerController.getGuiController().totalClicksTextArea.setText(String.valueOf(totalClicks++));
+                            clickerController.getGuiController().totalClicksTextArea.setText(String.valueOf(++totalClicks));
                         }
-                        totalClicks++;
 
                         if(totalClicks >= maxClicks) {
                             keyboardListener.setIsAutoClickerClicking(false);
