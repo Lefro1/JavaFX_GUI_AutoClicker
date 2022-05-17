@@ -33,9 +33,12 @@ public class GUIController implements Initializable {
     public Spinner<Integer> millisecondsClickDelaySpinner;
     public Spinner<Integer> clicksPerSecondSpinner;
     public Spinner<Integer> totalClicksSpinner;
+    public Spinner<Integer> randomDelayMinimum;
+    public Spinner<Integer> randomDelayMaximum;
 
     public MenuButton mouseButtonMenuButton;
     public MenuButton clickMultipleMenuButton;
+    public MenuButton randomDelayMenuButton;
 
     public Button startButton;
     public Button stopButton;
@@ -52,6 +55,8 @@ public class GUIController implements Initializable {
     private final MenuItem menuItemSingleClick = new MenuItem(ClickOptions.SINGLE_CLICK);
     private final MenuItem menuItemDoubleClick = new MenuItem(ClickOptions.DOUBLE_CLICK);
     private final MenuItem menuItemTripleClick = new MenuItem(ClickOptions.TRIPLE_CLICK);
+    private final MenuItem menuItemOn = new MenuItem("On");
+    private final MenuItem menuItemOff = new MenuItem("Off");
 
 
     private int minuteClickDelaySpinnerValue;
@@ -59,9 +64,12 @@ public class GUIController implements Initializable {
     private int millisecondsClickDelaySpinnerValue;
     private int clicksPerSecondSpinnerValue;
     private int totalClicksSpinnerValue;
+    private int randomDelayMinimumValue;
+    private int randomDelayMaximumValue;
 
     private String mouseButtonString;
     private String clickMultipleString;
+    private boolean isRandomDelayOn;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -120,6 +128,10 @@ public class GUIController implements Initializable {
         millisecondsClickDelaySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,999));
         clicksPerSecondSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,999));
         totalClicksSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,999));
+
+        // Setting the random delay to accept values up to 99,999 milliseconds.
+        randomDelayMinimum.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99999));
+        randomDelayMaximum.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99999));
     }
 
     /**
@@ -164,6 +176,29 @@ public class GUIController implements Initializable {
                 }
             }
         });
+
+
+        randomDelayMinimum.valueProperty().addListener(new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+                try {
+                    randomDelayMinimumValue = randomDelayMinimum.getValue();
+                } catch (NullPointerException e) {
+                    randomDelayMinimumValue = 0;
+                }
+            }
+        });
+         randomDelayMaximum.valueProperty().addListener(new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+                try {
+                    randomDelayMaximumValue = randomDelayMaximum.getValue();
+                } catch (NullPointerException e) {
+                    randomDelayMaximumValue = 0;
+                }
+            }
+        });
+
     }
 
 
@@ -178,6 +213,7 @@ public class GUIController implements Initializable {
         // Adding MenuItems to MenuButtons
         mouseButtonMenuButton.getItems().addAll(menuItemLeftClick, menuItemMiddleClick, menuItemRightClick);
         clickMultipleMenuButton.getItems().addAll(menuItemSingleClick, menuItemDoubleClick, menuItemTripleClick);
+        randomDelayMenuButton.getItems().addAll(menuItemOn, menuItemOff);
 
         // Defining defaults of MenuButtons on startup.
         mouseButtonMenuButton.setText(menuItemLeftClick.getText());
@@ -185,6 +221,8 @@ public class GUIController implements Initializable {
 
         clickMultipleMenuButton.setText(menuItemSingleClick.getText());
         clickMultipleString = menuItemSingleClick.getText();
+
+        randomDelayMenuButton.setText(menuItemOff.getText());
 
         // Assigning the "onAction" of all MenuItems so when selected, values update.
         menuItemLeftClick.setOnAction(e -> {
@@ -216,6 +254,19 @@ public class GUIController implements Initializable {
             clickMultipleMenuButton.setText(menuItemTripleClick.getText());
             clickMultipleString = menuItemTripleClick.getText();
         });
+
+
+        // Set random delay menu items.
+        menuItemOn.setOnAction(e -> {
+            randomDelayMenuButton.setText(menuItemOn.getText());
+            isRandomDelayOn = true;
+        });
+
+        menuItemOff.setOnAction(e -> {
+            randomDelayMenuButton.setText(menuItemOff.getText());
+            isRandomDelayOn = false;
+        });
+
     }
 
     public int getSecondsClickDelaySpinnerValue() {
@@ -260,5 +311,17 @@ public class GUIController implements Initializable {
      */
     public boolean isRepeatUntilStopped() {
         return String.valueOf(totalClicksButtons.getSelectedToggle()).contains("repeatUntilStoppedRadioButton");
+    }
+
+    public boolean isRandomDelayOn() {
+        return isRandomDelayOn;
+    }
+
+    public int getRandomDelayMinimumValue() {
+        return randomDelayMinimumValue;
+    }
+
+    public int getRandomDelayMaximumValue() {
+        return randomDelayMaximumValue;
     }
 }
