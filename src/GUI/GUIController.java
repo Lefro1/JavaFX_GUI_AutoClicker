@@ -33,8 +33,8 @@ public class GUIController implements Initializable {
     public Spinner<Integer> millisecondsClickDelaySpinner;
     public Spinner<Integer> clicksPerSecondSpinner;
     public Spinner<Integer> totalClicksSpinner;
-    public Spinner<Integer> randomDelayMinimum;
-    public Spinner<Integer> randomDelayMaximum;
+    public Spinner<Integer> randomDelayMinimumSpinner;
+    public Spinner<Integer> randomDelayMaximumSpinner;
 
     public MenuButton mouseButtonMenuButton;
     public MenuButton clickMultipleMenuButton;
@@ -130,8 +130,8 @@ public class GUIController implements Initializable {
         totalClicksSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,999));
 
         // Setting the random delay to accept values up to 99,999 milliseconds.
-        randomDelayMinimum.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99999));
-        randomDelayMaximum.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99999));
+        randomDelayMinimumSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99999));
+        randomDelayMaximumSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99999));
     }
 
     /**
@@ -178,21 +178,21 @@ public class GUIController implements Initializable {
         });
 
 
-        randomDelayMinimum.valueProperty().addListener(new ChangeListener<Integer>() {
+        randomDelayMinimumSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
                 try {
-                    randomDelayMinimumValue = randomDelayMinimum.getValue();
+                    randomDelayMinimumValue = randomDelayMinimumSpinner.getValue();
                 } catch (NullPointerException e) {
                     randomDelayMinimumValue = 0;
                 }
             }
         });
-         randomDelayMaximum.valueProperty().addListener(new ChangeListener<Integer>() {
+         randomDelayMaximumSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
                 try {
-                    randomDelayMaximumValue = randomDelayMaximum.getValue();
+                    randomDelayMaximumValue = randomDelayMaximumSpinner.getValue();
                 } catch (NullPointerException e) {
                     randomDelayMaximumValue = 0;
                 }
@@ -314,6 +314,7 @@ public class GUIController implements Initializable {
     }
 
     public boolean isRandomDelayOn() {
+        System.out.println("Called isRandomDelayOn from GUIController.");
         return isRandomDelayOn;
     }
 

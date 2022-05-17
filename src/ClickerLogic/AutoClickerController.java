@@ -37,9 +37,8 @@ public class AutoClickerController {
         guiController.millisecondsClickDelaySpinner.increment(0);
         guiController.clicksPerSecondSpinner.increment(0);
         guiController.totalClicksSpinner.increment(0);
-
-        // Reset the click counter on every start. Also done numerically in AutoClicker but this guarantees before click 1 it works properly.
-        guiController.totalClicksTextArea.setText("0");
+        guiController.randomDelayMaximumSpinner.increment(0);
+        guiController.randomDelayMinimumSpinner.increment(0);
 
         autoClicker.startAutoClicker();
     }
@@ -102,5 +101,18 @@ public class AutoClickerController {
 
     public KeyboardListener getKeyboardListener() {
         return this.keyboardListener;
+    }
+
+    public boolean isRandomDelayOn() {
+
+        return guiController.isRandomDelayOn();
+    }
+
+    public int getRandomDelayMinimumValue() {
+        return guiController.getRandomDelayMinimumValue();
+    }
+
+    public int getRandomDelayMaximumValue() {
+        return guiController.getRandomDelayMaximumValue();
     }
 }

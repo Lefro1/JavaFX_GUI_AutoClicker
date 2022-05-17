@@ -2,6 +2,7 @@ package ClickerLogic;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.util.Random;
 
 public class AutoClicker {
 
@@ -9,6 +10,11 @@ public class AutoClicker {
     private final KeyboardListener keyboardListener;
     private int delayBetweenCycles;
     private int totalClicks;
+
+    private boolean isRandomDelayOn;
+    private int randomDelayMinimum;
+    private int randomDelayMaximum;
+    private Random random;
 
 
     public AutoClicker(AutoClickerController clickerController) {
@@ -21,10 +27,28 @@ public class AutoClicker {
      *
      */
     public void startAutoClicker() {
+        random = new Random();
+        isRandomDelayOn = clickerController.isRandomDelayOn();
         totalClicks = 0;
+        randomDelayMinimum = 0;
+        randomDelayMaximum = 0;
 
         boolean isClicksPerSecond = clickerController.isClicksPerSecond();
         boolean isRepeatUntilStopped = clickerController.isRepeatUntilStopped();
+
+        int localRandomDelayMinimum = clickerController.getRandomDelayMinimumValue();
+        int localRandomDelayMaximum =clickerController.getRandomDelayMaximumValue();
+
+        // Check that there is both a minimum and maximum random delay. If not, turn off random delay
+        // As we cannot handle trying to process a random delay with either value being 0.
+        if(localRandomDelayMaximum != 0 && localRandomDelayMaximum > localRandomDelayMinimum) {
+            randomDelayMinimum = clickerController.getRandomDelayMinimumValue();
+            randomDelayMaximum = clickerController.getRandomDelayMaximumValue();
+        }
+        else {
+            isRandomDelayOn = false;
+        }
+
 
 
         delayBetweenCycles = calculateTimeBetweenClicks(
@@ -141,9 +165,19 @@ public class AutoClicker {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+
                 try {
                     Robot robot = new Robot();
                     while (keyboardListener.getIsAutoClickerClicking()) {
+
+                        if(isRandomDelayOn) {
+                            Thread.sleep(randomDelayMinimum + random.nextInt(randomDelayMaximum-randomDelayMinimum));
+                        }
+                        // if the auto clicker was turned off while the delay was running, do not click again.
+                        if(!keyboardListener.getIsAutoClickerClicking()) {
+                            return;
+                        }
+
                         for(int i = 0; i < numberOfClicksPerCycle; i++) {
                             robot.mousePress(mouseEvent);
                             robot.mouseRelease(mouseEvent);
@@ -184,6 +218,15 @@ public class AutoClicker {
                 try {
                     Robot robot = new Robot();
                     while (keyboardListener.getIsAutoClickerClicking()) {
+
+                        if(isRandomDelayOn) {
+                            Thread.sleep(randomDelayMinimum + random.nextInt(randomDelayMaximum-randomDelayMinimum));
+                        }
+                        // if the auto clicker was turned off while the delay was running, do not click again.
+                        if(!keyboardListener.getIsAutoClickerClicking()) {
+                            return;
+                        }
+
                         for(int i = 0; i < numberOfClicksPerCycle; i++) {
                             robot.mousePress(mouseEvent);
                             robot.mouseRelease(mouseEvent);

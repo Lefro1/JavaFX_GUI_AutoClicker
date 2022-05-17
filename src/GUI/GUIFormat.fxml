@@ -130,8 +130,8 @@
             <MenuButton fx:id="randomDelayMenuButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="87.0" text="Off" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Minimum (ms)" GridPane.columnIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Maximum (ms)" GridPane.columnIndex="2" />
-            <Spinner fx:id="randomDelayMinimum" editable="true" prefHeight="26.0" prefWidth="131.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Spinner fx:id="randomDelayMaximum" editable="true" prefHeight="26.0" prefWidth="131.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Spinner fx:id="randomDelayMinimumSpinner" editable="true" prefHeight="26.0" prefWidth="131.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Spinner fx:id="randomDelayMaximumSpinner" editable="true" prefHeight="26.0" prefWidth="131.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>
