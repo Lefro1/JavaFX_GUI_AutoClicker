@@ -20,27 +20,26 @@ public class AutoClicker {
      * Given either a specified delay between clicks, or an int of clicks per second, defines how fast to click.
      *
      */
-    public void startAutoClicker() throws InterruptedException {
-        // Assigning to 1 instead of 0, for some reason it seems to miss the first click.
+    public void startAutoClicker() {
         totalClicks = 0;
 
         boolean isClicksPerSecond = clickerController.isClicksPerSecond();
         boolean isRepeatUntilStopped = clickerController.isRepeatUntilStopped();
 
-        try {
-            delayBetweenCycles = calculateTimeBetweenClicks(
-                    clickerController.getMinuteClickDelaySpinnerValue(),
-                    clickerController.getSecondsClickDelaySpinnerValue(),
-                    clickerController.getMillisecondsClickDelaySpinnerValue(),
-                    isClicksPerSecond);
-        }
-        catch (Exception e) {
-            return;
-        }
 
-        clickerVersionDecider(isClicksPerSecond, isRepeatUntilStopped);
+        delayBetweenCycles = calculateTimeBetweenClicks(
+                clickerController.getMinuteClickDelaySpinnerValue(),
+                clickerController.getSecondsClickDelaySpinnerValue(),
+                clickerController.getMillisecondsClickDelaySpinnerValue(),
+                isClicksPerSecond);
+
+        clickerVersionDecider(isRepeatUntilStopped);
     }
 
+    /**
+     * Stops the auto clicker by re-assigning the keyboardListener field, causing the while() loops
+     * inside the start...Clicker() methods to be while(false) and exit.
+     */
     public void stopAutoClicker() {
         keyboardListener.setIsAutoClickerClicking(false);
     }
@@ -72,14 +71,22 @@ public class AutoClicker {
         return clickDelay;
     }
 
-    private void clickerVersionDecider(boolean isClicksPerSecond, boolean isRepeatingUntilStopped) throws InterruptedException {
+    /**
+     * Based on the user's input on the GUI, this will call the correct function with the correct parameters
+     * to start the auto clicker. This method only routes the information to the start...Clicker() methods.
+     *
+     * @param isRepeatingUntilStopped The radio button selected on the GUI determines if there is a set maximum number
+     *                                of clicks, or if the clicker will continue until stopped.
+     */
+    private void clickerVersionDecider(boolean isRepeatingUntilStopped) {
         String mouseButton = clickerController.getMouseButtonString();
         String clickMultiple = clickerController.getClickMultipleString();
 
 
         int mouseEvent;
 
-        //Just using a switch statement because it's fun, if/else may have been more readable.
+        // Just using a switch statement because it's fun, if/else may have been more readable.
+        // Changes mouse button the clicker uses based on user input.
         switch(mouseButton) {
             case ClickOptions.LEFT_CLICK:
                 mouseEvent = InputEvent.BUTTON1_DOWN_MASK;
@@ -94,6 +101,7 @@ public class AutoClicker {
                 throw new IllegalArgumentException("mouse button " + mouseButton + "Found to be invalid.");
         }
 
+        // Changes the number of clicks per cycle (single, double, triple) based on the user's input.
         int numberOfClicksPerCycle;
         switch(clickMultiple) {
             case ClickOptions.SINGLE_CLICK:
@@ -116,14 +124,14 @@ public class AutoClicker {
         }
     }
 
-
     /**
-     * While the auto clicker is running, click the specified number of clicks per cycle at
+     * Starts an auto clicker that will continue to run until the user either presses the stop button, or presses
+     * the key assigned to toggle the auto clicker.
      *
      * @param mouseEvent determines if robot will left, middle, or right click.
      * @param numberOfClicksPerCycle determines if we will single, double, or triple click.
      */
-    private void startRepeatUntilStoppedClicker(int mouseEvent, int numberOfClicksPerCycle) throws InterruptedException {
+    private void startRepeatUntilStoppedClicker(int mouseEvent, int numberOfClicksPerCycle) {
 
         keyboardListener.setIsAutoClickerClicking(true);
 
@@ -157,6 +165,13 @@ public class AutoClicker {
 
     }
 
+    /**
+     * Starts an auto clicker that will continue to run until the user presses the stop button, presses
+     * the key assigned to toggle the auto clicker, or the auto clicker reaches the max number of clicks.
+     *
+     * @param mouseEvent determines if robot will left, middle, or right click.
+     * @param numberOfClicksPerCycle determines if we will single, double, or triple click.
+     */
     private void startMaxTotalClicksClicker(int mouseEvent, int numberOfClicksPerCycle, int maxClicks) {
         keyboardListener.setIsAutoClickerClicking(true);
 

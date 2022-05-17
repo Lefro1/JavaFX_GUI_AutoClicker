@@ -27,7 +27,7 @@ public class AutoClickerController {
     }
 
     /**
-     * Start the auto clicker. Controls the state of isAutoClickerClicking as it can be started via button press as well.
+     * Start the auto clicker. Forces the GUIController class to update its values to their current entered amounts.
      */
     public void start() throws InterruptedException {
         // By default, the Spinner value only "sets" itself upon clicking the arrow.
@@ -38,20 +38,21 @@ public class AutoClickerController {
         guiController.clicksPerSecondSpinner.increment(0);
         guiController.totalClicksSpinner.increment(0);
 
+        // Reset the click counter on every start. Also done numerically in AutoClicker but this guarantees before click 1 it works properly.
         guiController.totalClicksTextArea.setText("0");
 
         autoClicker.startAutoClicker();
     }
 
     /**
-     * Stop the auto clicker. Controls the state of isAutoClickerClicking as it can be started via button press as well.
+     * Stop the auto clicker.
      */
     public void stop() {
         autoClicker.stopAutoClicker();
     }
 
     /**
-     * Assign a new hotkey to the auto clicker.
+     * Assign a new hotkey to toggle the auto clicker on/off.
      */
     public String setHotkey() throws InterruptedException {
         return keyboardListener.setToggleKeyCode();

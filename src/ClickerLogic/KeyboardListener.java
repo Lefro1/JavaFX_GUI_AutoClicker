@@ -17,12 +17,9 @@ public class KeyboardListener implements NativeKeyListener {
     private long mostRecentKeyPressTime;
     private boolean isAutoClickerClicking;
 
-    public KeyboardListener(AutoClickerController clickerController, String stopKey) {
-        this.clickerController = clickerController;
-        this.toggleKey = stopKey;
-    }
-
     /**
+     * Constructs a KeyboardListener object. Uses JNativeHook in order to have a global key listener.
+     * This allows the program to respond to user key inputs (assign and use a toggle key for the clicker).
      * @param clickerController The AutoClickerController object using this keyboard listener.
      */
     public KeyboardListener(AutoClickerController clickerController) {
@@ -51,9 +48,10 @@ public class KeyboardListener implements NativeKeyListener {
     }
 
     /**
+     * After the {@code start()} method is called, this listener is on reading what keys are pressed.
+     * This allows for toggle buttons to work while the application is not selected.
      * @param e Whenever a key is pressed, this is that key.
      */
-
     public void nativeKeyPressed(NativeKeyEvent e) {
         mostRecentNativeKeyEvent = e;
         mostRecentKeyPressTime = System.currentTimeMillis();
