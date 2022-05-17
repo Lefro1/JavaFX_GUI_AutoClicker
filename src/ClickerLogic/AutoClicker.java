@@ -22,7 +22,7 @@ public class AutoClicker {
      */
     public void startAutoClicker() throws InterruptedException {
         // Assigning to 1 instead of 0, for some reason it seems to miss the first click.
-        totalClicks = 1;
+        totalClicks = 0;
 
         boolean isClicksPerSecond = clickerController.isClicksPerSecond();
         boolean isRepeatUntilStopped = clickerController.isRepeatUntilStopped();
@@ -89,6 +89,7 @@ public class AutoClicker {
                 break;
             case ClickOptions.RIGHT_CLICK:
                 mouseEvent = InputEvent.BUTTON3_DOWN_MASK;
+                break;
             default:
                 throw new IllegalArgumentException("mouse button " + mouseButton + "Found to be invalid.");
         }
@@ -103,6 +104,7 @@ public class AutoClicker {
                 break;
             case ClickOptions.TRIPLE_CLICK:
                 numberOfClicksPerCycle = 3;
+                break;
             default:
                 throw new IllegalArgumentException("mouse button " + mouseButton + "Found to be invalid.");
         }
