@@ -54,7 +54,7 @@ Follow these instructions if you want to use this app.
 ### Prerequisites
 **(This onely applies if not using the jar file)**
 
-This application relies on [JNativeHook 2.1.0](https://github.com/kwhat/jnativehook) or newer.
+This application relies on [JNativeHook 2.2.2](https://github.com/kwhat/jnativehook) or newer.
  - The most recent version of JNativeHook can be found [here](https://github.com/kwhat/jnativehook/releases). 
    Download the relevant jar file.
 
@@ -70,7 +70,7 @@ Compiling Locally (through IntelliJ):
  * Add the file to the dependency list, ensure the box "Export" is checked, apply and close.
  * You can now compile `src/GUI/RenderGUI`'s main method which will run the program.
 
-Running the jar:
+Running the jar (To be added):
  * Download the .jar file for the project
  * Run the file.
 
