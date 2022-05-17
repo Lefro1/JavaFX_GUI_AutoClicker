@@ -1,8 +1,5 @@
 package ClickerLogic;
 
-import com.github.kwhat.jnativehook.GlobalScreen;
-import com.github.kwhat.jnativehook.NativeHookException;
-
 import java.awt.*;
 import java.awt.event.InputEvent;
 

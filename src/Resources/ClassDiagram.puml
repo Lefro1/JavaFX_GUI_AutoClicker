@@ -39,22 +39,22 @@ package ClickerLogic {
         + setHotkey() : void
     }
 
-    class ClicksPerSecondCalculator {
-        + getClicksPerSecond : double
+    class AutoClicker {
+        + AutoClicker(AutoClickerController)
+        + startAutoClicker() : void
+        + stopAutoClicker() :void
+
     }
 
-    class ClickType {
-        + setLeftClick() : void
-        + setMiddleClick() : void
-        + setRightClick() : void
-        + setSingleClick() : void
-        + setDoubleClick() : void
-        + setTripleClick() : void
+    class KeyboardListener {
+
     }
+
 }
 
-AutoClickerController *-- ClicksPerSecondCalculator
-AutoClickerController *-- ClickType
+AutoClickerController *-- AutoClicker
+AutoClickerController *-- KeyboardListener
+AutoClicker *- KeyboardListener
 
 GUIController <-- RenderGUI : calls
 

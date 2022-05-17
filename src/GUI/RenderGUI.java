@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import lombok.SneakyThrows;
 
 public class RenderGUI extends Application {
 
@@ -40,7 +39,6 @@ public class RenderGUI extends Application {
         launch(args);
     }
 
-    @SneakyThrows
     private void handleWindowClose(Event event) {
 
         final Stage stage;

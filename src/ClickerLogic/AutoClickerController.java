@@ -1,8 +1,6 @@
 package ClickerLogic;
 
 import GUI.GUIController;
-import lombok.SneakyThrows;
-
 import java.awt.*;
 import java.io.IOException;
 
@@ -19,7 +17,6 @@ public class AutoClickerController {
      * Passes a reference of this object to the KeyboardListener so it can recognize inputs and use methods.
      * @throws IOException If the resource path is invalid.
      */
-    @SneakyThrows
     public AutoClickerController(GUIController guiController) throws IOException, AWTException {
         this.guiController = guiController;
         keyboardListener = new KeyboardListener(this);

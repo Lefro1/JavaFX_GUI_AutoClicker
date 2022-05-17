@@ -4,7 +4,6 @@ import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.NativeHookException;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
-import lombok.SneakyThrows;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +53,7 @@ public class KeyboardListener implements NativeKeyListener {
     /**
      * @param e Whenever a key is pressed, this is that key.
      */
-    @SneakyThrows
+
     public void nativeKeyPressed(NativeKeyEvent e) {
         mostRecentNativeKeyEvent = e;
         mostRecentKeyPressTime = System.currentTimeMillis();
@@ -63,7 +62,12 @@ public class KeyboardListener implements NativeKeyListener {
         if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals(NativeKeyEvent.getKeyText(toggleKeyCode))) {
 
             if (!isAutoClickerClicking) {
-                clickerController.start();
+                try {
+                    clickerController.start();
+                } catch (InterruptedException interruptedException) {
+                    clickerController.stop();
+                    interruptedException.printStackTrace();
+                }
             } else {
                 clickerController.stop();
             }
