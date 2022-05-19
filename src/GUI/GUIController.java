@@ -314,7 +314,6 @@ public class GUIController implements Initializable {
     }
 
     public boolean isRandomDelayOn() {
-        System.out.println("Called isRandomDelayOn from GUIController.");
         return isRandomDelayOn;
     }
 
